@@ -1,6 +1,6 @@
 void main() {
   final listA = [1,2,3];
-  const listB = [Student('1'), Student('2'), Student(3)];
+  const listB = [Student('1'), Student('2'), Student('3')];
 
   const Student stu = Student('');
 
