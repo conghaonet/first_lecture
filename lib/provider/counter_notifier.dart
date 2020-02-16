@@ -1,13 +1,13 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class CounterNotifier extends ChangeNotifier {
- int _counter = 0;
+  int _counter = 0;
 
- void plus() {
-   ++_counter;
-   notifyListeners();
+  void add() {
+    _counter == 0 ? _counter = 1 : ++_counter;
+    notifyListeners();
+  }
 
- }
 
- get counter => _counter;
+  int get counter => _counter ?? -1;
 }
