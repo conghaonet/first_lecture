@@ -52,7 +52,7 @@ class _TyrAnimationState extends State<TyrAnimation> with SingleTickerProviderSt
             Transform.rotate(
               angle: rotateAnimation.value,
               origin: Offset(0, 0),
-              child: Image.asset('images/ic_home.png'),
+              child: Image.asset('images/ic_home.png', width: 256/3, height: 256/3,),
             ),
           ],
         ),
