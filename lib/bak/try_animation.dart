@@ -26,7 +26,8 @@ class _TyrAnimationState extends State<TyrAnimation> with SingleTickerProviderSt
   void initState() {
     super.initState();
     _controller = AnimationController(vsync: this, duration: Duration(seconds: 2));
-    Tween<double> tween = Tween(begin: 0, end: math.pi/9);
+    //math.pi = 180度
+    Tween<double> tween = Tween(begin: 0, end: math.pi);
     rotateAnimation = tween.animate(
       CurvedAnimation(
         parent: _controller,
@@ -50,7 +51,8 @@ class _TyrAnimationState extends State<TyrAnimation> with SingleTickerProviderSt
           children: <Widget>[
             Transform.rotate(
               angle: rotateAnimation.value,
-              child: Image.asset('images/ic_launcher.png'),
+              origin: Offset(0, 0),
+              child: Image.asset('images/ic_home.png'),
             ),
           ],
         ),
