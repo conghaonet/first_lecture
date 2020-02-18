@@ -21,6 +21,7 @@ class TyrAnimation extends StatefulWidget {
 class _TyrAnimationState extends State<TyrAnimation> with SingleTickerProviderStateMixin{
   AnimationController _controller;
   Animation<double> rotateAnimation;
+  Animation<double> scaleAnimation;
 
   @override
   void initState() {
@@ -39,6 +40,15 @@ class _TyrAnimationState extends State<TyrAnimation> with SingleTickerProviderSt
 
       });
     });
+
+    scaleAnimation = Tween<double>(begin: 0.6, end: 1).animate(
+      CurvedAnimation(parent: _controller, curve: Interval(0, 1, curve: Curves.linear),),
+    );
+    scaleAnimation.addListener((){
+      setState(() {
+
+      });
+    });
     _controller.repeat(reverse: true);
   }
 
@@ -49,10 +59,12 @@ class _TyrAnimationState extends State<TyrAnimation> with SingleTickerProviderSt
       body: SafeArea(
         child: Column(
           children: <Widget>[
-            Transform.rotate(
-              angle: rotateAnimation.value,
-              origin: Offset(0, 0),
-              child: Image.asset('images/ic_home.png', width: 256/3, height: 256/3,),
+            ScaleTransition(
+              scale: scaleAnimation,
+              child: Transform.rotate(
+                angle: rotateAnimation.value,
+                child: Image.asset('images/ic_home.png', width: 256/3, height: 256/3,),
+              ),
             ),
           ],
         ),

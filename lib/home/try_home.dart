@@ -20,18 +20,25 @@ class TryHome extends StatefulWidget {
 }
 
 class _TryHomeState extends State<TryHome> {
-  PageController _controller = PageController();
-  RefreshController _refreshController = RefreshController(initialRefresh: false);
+  final PageController _controller = PageController();
+  final RefreshController _refreshController = RefreshController(initialRefresh: false);
+  double _scrollPosition = -1;
 
   @override
   void initState() {
     super.initState();
     _controller.addListener(() {
-//      print('_controller.position.pixels = ${_controller.position.pixels}');
+      _scrollPosition = _controller.position.pixels;
+      if (_scrollPosition == 0) {
+        print('_controller.position.pixels = ${_controller.position.pixels}');
+        if(mounted) {
+          setState(() {});
+        }
+      }
     });
   }
 
-  void _onRefresh() async {
+  Future _onRefresh() async {
     await Future.delayed(Duration(milliseconds: 1000));
     // if failed,use refreshFailed()
     _refreshController.refreshCompleted();
@@ -78,8 +85,10 @@ class _TryHomeState extends State<TryHome> {
                       child: Listener(
                         behavior: HitTestBehavior.translucent,
                         onPointerMove: (PointerMoveEvent event) {
-                          if (_controller.position.pixels == 0 && event.localDelta.dy > 0) {
-                            _refreshController.requestRefresh();
+                          if (_controller.position.pixels == 0 && event.localDelta.dy < 0) {
+//                            _refreshController.requestRefresh();
+                            _scrollPosition = 0.1;
+                            setState(() {});
                             debugPrint('event.localDelta.dy = ${event.localDelta.dy}');
                           }
                         },
@@ -140,9 +149,10 @@ class _TryHomeState extends State<TryHome> {
     );
   }
 
-  PageView _buildPageView() {
+  Widget _buildPageView() {
     return PageView.builder(
       itemCount: 4,
+      physics: _scrollPosition == 0 ? NeverScrollableScrollPhysics() : AlwaysScrollableScrollPhysics(),
       scrollDirection: Axis.vertical,
       controller: _controller,
       itemBuilder: (context, index) {
